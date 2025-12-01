@@ -1,0 +1,266 @@
+{% extends "template.html" %}
+{% block content %}
+
+<div class="ms-2 mt-2 d-flex">
+    <div class="d-flex">
+        <a href="/"><button class="rounded">Voltar</button></a>
+    </div>
+    <div class="w-100 d-flex justify-content-center">
+        <h5>Sala: {{ sala }}</h5>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, msg in messages %}
+<div id="alert" class="alert-{{ categoria }}">{{ msg }}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div id="formAvaliacoes" class="d-flex">
+    <form action="/enviar" method="POST" class="mt-3 w-75 d-flex">
+        <div class="w-100 d-flex align-items-center">
+            <div class="w-75 d-flex justify-content-center">
+                <div>
+                    <h5>Nome: {{ aluno.nome }}</h5>
+
+                    <input type="checkbox" name="poucotempo" id="poucotempo" class="me-1">
+                    <label for="poucotempo">Pouco tempo no programa</label>
+
+                    <div class="d-flex align-items-center mt-2">
+                        <h5 class="me-2">Nota:</h5>
+                        <div class="d-flex justify-content-around w-25 gap-2">
+                            <input type="radio" name="nota" value="PS" id="nota_ps" {% if avaliacao_existente and
+                                avaliacao_existente.nota=='PS' %}checked{% endif %}>
+                            <label for="nota_ps">PS</label>
+
+                            <input type="radio" name="nota" value="S" id="nota_s" {% if avaliacao_existente and
+                                avaliacao_existente.nota=='S' %}checked{% endif %}>
+                            <label for="nota_s">S</label>
+
+                            <input type="radio" name="nota" value="R" id="nota_r" {% if avaliacao_existente and
+                                avaliacao_existente.nota=='R' %}checked{% endif %}>
+                            <label for="nota_r">R</label>
+
+                            <input type="radio" name="nota" value="I" id="nota_i" {% if avaliacao_existente and
+                                avaliacao_existente.nota=='I' %}checked{% endif %}>
+                            <label for="nota_i">I</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p id="descricaoNota" class="d-none"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-50 d-flex flex-column align-items-center justify-content-center">
+                <img src="{{ url_for('static', filename='img/user.png') }}" alt="Imagem do aluno">
+                <h6 class="mt-2">{{ periodo }}</h6>
+            </div>
+        </div>
+
+        <h4 class="mt-2">Características do aluno</h4>
+
+        <div id="caracteristicas" class="d-flex ms-4 w-75 justify-content-around">
+            <div class="w-50">
+                <h5>Positivas</h5>
+                <div class="w-100 d-flex gap-3">
+                    <input type="checkbox" name="caracteristica" value="bomaluno" id="bomaluno">
+                    <label for="bomaluno">Bom aluno</label>
+
+                    <input type="checkbox" name="caracteristica" value="educado" id="educado">
+                    <label for="educado">Educado</label>
+                </div>
+                <div class="w-100 d-flex gap-3">
+                    <input type="checkbox" name="caracteristica" value="sociavel" id="sociavel">
+                    <label for="sociavel">Sociável</label>
+
+                    <input type="checkbox" name="caracteristica" value="inteligente" id="inteligente">
+                    <label for="inteligente">Inteligente</label>
+                </div>
+            </div>
+
+            <div class="w-50 text-end">
+                <h5>Negativas</h5>
+                <div class="w-100 d-flex justify-content-end gap-3">
+                    <input type="checkbox" name="caracteristica" value="muitasfaltas" id="muitasfaltas">
+                    <label for="muitasfaltas">Muitas Faltas</label>
+
+                    <input type="checkbox" name="caracteristica" value="falaemexcesso" id="falaemexcesso">
+                    <label for="falaemexcesso">Fala em Excesso</label>
+                </div>
+                <div class="w-100 d-flex justify-content-end gap-3">
+                    <input type="checkbox" name="caracteristica" value="esquecematerial" id="esquecematerial">
+                    <label for="esquecematerial">Esquece Material</label>
+
+                    <input type="checkbox" name="caracteristica" value="desrespeitoso" id="desrespeitoso">
+                    <label for="desrespeitoso">Desrespeitoso</label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <textarea style="resize: none;" class="mt-4" name="observacao" id="observacao"
+                placeholder="Insira sua observação aqui..."
+                maxlength="500">{{ avaliacao_existente.observacao if avaliacao_existente else '' }}</textarea>
+        </div>
+
+        <div class="text-center w-25 d-flex justify-content-center">
+            <a href="/anterior">
+                {% if indice > 0 %}
+                <button id="botaoAnterior" type="button" class="rounded">Anterior</button>
+                {% endif %}
+            </a>
+            {% set ja_avaliado = aluno.id in ids_avaliados %}
+
+            {% if ja_avaliado %}
+            <button id="botaoAtualizar" type="submit" name="action" value="atualizar" class="rounded mx-2">Atualizar</button>
+            {% else %}
+            {% if indice != quantidade_alunos - 1 %}
+            <button id="botaoProximo" type="submit" name="action" value="proximo" class="rounded mx-2">Próximo</button>
+            {% else %}
+            <button id="botaoFinalizar" type="submit" name="action" value="concluir" class="rounded mx-2">Concluir</button>
+            {% endif %}
+            {% endif %}
+
+        </div>
+    </form>
+
+    <div class="w-25 me-3" style="max-height: 80vh; overflow-y: auto; border: 3px solid #0F649F; border-radius: 1%;">
+        <table>
+            <tr class="text-center w-100 text-white" style="background-color: #0F649F;">
+                <th class="w-100">Nome</th>
+                <th>Situação</th>
+            </tr>
+            {% for a in alunos %}
+            <tr>
+                <td>
+                    <div class="ms-1 mt-1">
+                        {% if a.nome in nomes_avaliados %}
+                        <a href="{{ url_for('ir_para_aluno', indice=loop.index0) }}" class="p-1 rounded"
+                            style="text-decoration: none; color: white; background-color: #0F649F;">
+                            {{ a.nome }}
+                        </a>
+                        {% else %}
+                        {{ a.nome }}
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="text-center">
+                    {% if a.nome in nomes_avaliados %}
+                    <span>✅</span>
+                    {% else %}
+                    <span>❌</span>
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+<script>
+    const notaRadios = document.getElementsByName('nota');
+    const descricaoNota = document.getElementById('descricaoNota');
+    const poucoTempoCheckbox = document.getElementById('poucotempo');
+    const inputsRadio = document.querySelectorAll('input[type="radio"]');
+    const inputsCheckbox = document.querySelectorAll('input[type="checkbox"]');
+    const observacaoTextarea = document.getElementById('observacao');
+
+    notaRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            let descricao = '';
+            switch (radio.value) {
+                case 'PS':
+                    descricao = 'O aluno superou as expectativas.';
+                    break;
+                case 'S':
+                    descricao = 'O aluno atingiu as expectativas.';
+                    break;
+                case 'R':
+                    descricao = 'O aluno ficou um pouco abaixo da média.';
+                    break;
+                case 'I':
+                    descricao = 'O aluno teve baixa frequência e/ou baixo desempenho.';
+                    break;
+            }
+            descricaoNota.textContent = descricao;
+            descricaoNota.classList.remove('d-none');
+        });
+    });
+
+    poucoTempoCheckbox.addEventListener('change', () => {
+        if (poucoTempoCheckbox.checked) {
+            observacaoTextarea.value = 'O aluno está há pouco tempo no programa, o que ainda não permite uma avaliação completa sobre seu desempenho e participação.';
+            descricaoNota.textContent = '';
+        } else {
+            observacaoTextarea.value = '';
+        }
+        inputsRadio.forEach(input => {
+            if (input !== poucoTempoCheckbox) {
+                input.disabled = poucoTempoCheckbox.checked;
+            }
+            inputsCheckbox.forEach(input => {
+                if (input !== poucoTempoCheckbox) {
+                    input.disabled = poucoTempoCheckbox.checked;
+                }
+            });
+        });
+    });
+
+    const caracteristicasCheckboxes = document.querySelectorAll('input[name="caracteristica"]');
+
+    const positivas = {
+        'bomaluno': 'é um bom aluno',
+        'educado': 'é educado no ambiente de aula',
+        'sociavel': 'é sociável e interage bem com os demais',
+        'inteligente': 'é inteligente e compreende os conteúdos com facilidade',
+    };
+
+    const negativas = {
+        'muitasfaltas': 'tem apresentado muitas faltas',
+        'falaemexcesso': 'fala em excesso durante as atividades',
+        'desrespeitoso': 'apresenta comportamento desrespeitoso',
+        'esquecematerial': 'frequentemente esquece o material necessário',
+    };
+
+    function gerarTextoObservacao() {
+        const selecionadas = Array.from(caracteristicasCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const posMarcadas = selecionadas.filter(val => positivas[val]);
+        const negMarcadas = selecionadas.filter(val => negativas[val]);
+
+        let texto = "";
+
+        if (posMarcadas.length > 0) {
+            texto += "O aluno ";
+            const frasesPos = posMarcadas.map((val, i) => {
+                const frase = positivas[val];
+                if (i === posMarcadas.length - 1 && i !== 0) return "e " + frase;
+                return frase;
+            });
+            texto += frasesPos.join(", ") + ". ";
+        }
+
+        if (negMarcadas.length > 0) {
+            let conectivo = (posMarcadas.length > 0) ? "No entanto, " : "O aluno ";
+            texto += conectivo;
+            const frasesNeg = negMarcadas.map((val, i) => {
+                const frase = negativas[val];
+                if (i === negMarcadas.length - 1 && i !== 0) return "e " + frase;
+                return frase;
+            });
+            texto += frasesNeg.join(", ") + ". ";
+        }
+
+        observacaoTextarea.value = texto.trim();
+    }
+
+    caracteristicasCheckboxes.forEach(cb => {
+        cb.addEventListener('change', gerarTextoObservacao);
+    });
+</script>
+{% endblock %}

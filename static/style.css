@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Raleway", sans-serif
+}
+
+header {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0F649F;
+    color: white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    width: 30%;
+    border-radius: 5%;
+}
+
+header img {
+    width: 3%;
+}
+
+textarea {
+    width: 500px;
+    height: 100px;
+    padding: 1%;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #0F649F;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0D4A73;
+    transform: scale(1.05);
+}
+
+select {
+    background-color: #0F649F;
+    color: white;
+    border: none; 
+    padding: 5px;
+}
+
+#salas-div {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.sala-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 16px;
+}
+
+.sala-buttons button {
+    width: 10em;
+    height: 5em;
+}
+
+#alert {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px auto;
+  padding: 10px 15px;
+  border-radius: 5px;
+  width: 60%;
+}
+
+.alert-erro {
+  background-color: #ffe6e6;
+  color: #d00000;
+}
+
+td {
+    font-size: 14px;
+    height: 2em;
+}
+
+td:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+input::placeholder {
+    font-size: 15px;
+}
+
+/* Estilos responsivos para dispositivos móveis */
+
+@media (max-width: 768px) {
+    header img {
+        width: 8%;
+    }
+    .sala-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+    .sala-buttons button {
+        width: 70%;
+    }
+    #formAvaliacoes {
+        flex-direction: column;
+        align-items: center;
+    }
+    #formAvaliacoes img {
+        width: 60%;
+    }
+    #caracteristicas {
+        flex-direction: column;
+        align-items: center;
+    }
+    textarea {
+        width: 300px;
+    }
+}
+

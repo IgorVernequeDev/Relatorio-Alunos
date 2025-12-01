@@ -1,0 +1,63 @@
+{% extends "template.html" %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, msg in messages %}
+<div id="alert" class="alert-{{ categoria }}">{{ msg }}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div id="salas-div">
+
+  <div class="sala-buttons">
+    <button onclick="mudarsala('Sala 1')">Sala 1</button>
+    <button onclick="mudarsala('Sala 2')">Sala 2</button>
+    <button onclick="mudarsala('Sala 3')">Sala 3</button>
+    <button onclick="mudarsala('Sala 4')">Sala 4</button>
+    <button onclick="mudarsala('Sala 5')">Sala 5</button>
+  </div>
+
+  <div class="sala-buttons">
+    <button onclick="mudarsala('Sala 6')">Sala 6</button>
+    <button onclick="mudarsala('Sala 7')">Sala 7</button>
+    <button onclick="mudarsala('Sala 8')">Sala 8</button>
+    <button onclick="mudarsala('Sala 9')">Sala 9</button>
+    <button onclick="mudarsala('Sala 10')">Sala 10</button>
+  </div>
+
+  <div class="sala-buttons">
+    <button onclick="mudarsala('Sala 11')">Sala 11</button>
+    <button onclick="mudarsala('Sala 12')">Sala 12</button>
+    <button onclick="mudarsala('Sala 13')">Sala 13</button>
+    <button onclick="mudarsala('Sala 14')">Sala 14</button>
+    <button onclick="mudarsala('Sala 15')">Sala 15</button>
+  </div>
+</div>
+
+<script>
+  function mudarsala(sala) {
+    window.location.href = `/alunos/${sala}`;
+  }
+</script>
+
+{% if session.get('ultimo_relatorio') %}
+<script>
+  (function () {
+    const nome = {{ session.get('ultimo_relatorio') | tojson
+  }}
+  if (nome) {
+    const url = `/download_relatorio/${encodeURIComponent(nome)}`;
+    window.open(url, '_blank');
+    fetch('/limpar_ultimo_relatorio', { method: 'POST' });
+  }
+  }) ();
+</script>
+{% endif %}
+
+<style>
+  button {
+    border-radius: 10px;
+  }
+</style>
+
+{% endblock %}
