@@ -1,56 +1,66 @@
-## 📘 Sistema de Relatórios de Alunos
+# 📘 Relatório de Alunos
 
-![Imagem de capa](static/img/fotocapa.png)
+Aplicação web para geração automática de relatórios de alunos a partir de dados armazenados em banco de dados.
 
-Aplicação web desenvolvida com Flask, SQLite e python-docx para geração automática de relatórios de alunos a partir de dados armazenados em banco.
+O *Relatório de Alunos* permite consultar informações de estudantes registradas em um banco SQLite e gerar automaticamente relatórios em formato Word. A aplicação utiliza uma interface web simples para visualização dos dados e geração dos documentos.
 
-🚀 Funcionalidades
+## 🚀 Funcionalidades
 
-- Consulta de alunos no banco SQLite
+* 📄 Geração automática de relatórios em Word
+* 👨‍🎓 Consulta de alunos armazenados no banco de dados
+* 🗂️ Exibição de informações através de interface web
+* 🧩 Arquitetura modular (routes, queries, reports)
+* 💾 Integração com banco de dados SQLite
+* 🌐 Interface simples e funcional
 
-- Exibição de dados em interface web
+## 🛠️ Tecnologias utilizadas
 
-- Geração automática de relatórios em Word
+![Python](https://img.shields.io/badge/Python-backend-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-API-000000?style=for-the-badge\&logo=flask\&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-database-003B57?style=for-the-badge\&logo=sqlite\&logoColor=white)
+![HTML](https://img.shields.io/badge/HTML5-markup-E34F26?style=for-the-badge\&logo=html5\&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-style-1572B6?style=for-the-badge\&logo=css3\&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-UI-7952B3?style=for-the-badge\&logo=bootstrap\&logoColor=white)
 
-- Arquitetura modular (routes, queries, report)
+## 📦 Instalação
 
-- Interface simples e funcional
+Clone o repositório:
 
-🛠️ Tecnologias Utilizadas
+```bash
+git clone https://github.com/IgorVernequeDev/Relatorio-Alunos.git
+```
 
-- Python 3
+Entre na pasta do projeto:
 
-- Flask
-
-- SQLite
-
-- Python-docx
-
-- HTML/CSS/Bootstrap
-
-- Jinja2
-
-▶️ Como executar
+```bash
+cd Relatorio-Alunos
+```
 
 Instale as dependências:
 
+```bash
 pip install -r requirements.txt
+```
 
+Execute o servidor:
 
-Rode o servidor Flask:
-
+```bash
 python run.py
+```
 
+Depois disso, acesse no navegador:
 
-Acesse no navegador:
-
+```
 http://127.0.0.1:5000/
+```
 
-🔗 Demonstração Online
+## 🎯 Objetivo do projeto
 
-👉 relatorio-alunos.onrender.com
+* Desenvolvimento de aplicações web com Flask
+* Integração com banco de dados SQLite
+* Geração automática de documentos Word com Python
+* Prática de arquitetura modular em projetos backend
 
-👤 Autor
+## 👨‍💻 Autor
 
-Igor Verneque
-Desenvolvedor Python • Flask • Web • SQL
+Desenvolvido por *Igor Verneque*
