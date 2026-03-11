@@ -1,7 +1,5 @@
 # 📘 Relatório de Alunos
 
-Aplicação web para geração automática de relatórios de alunos a partir de dados armazenados em banco de dados.
-
 O *Relatório de Alunos* permite consultar informações de estudantes registradas em um banco SQLite e gerar automaticamente relatórios em formato Word. A aplicação utiliza uma interface web simples para visualização dos dados e geração dos documentos.
 
 ![Imagem de capa](static/img/fotocapa.png)
